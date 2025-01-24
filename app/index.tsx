@@ -9,12 +9,12 @@ const HomeScreen = () => {
        
             // View is a container that supports layout with flexbox, style, some touch handling, and accessibility controls.
             // Text is a component for displaying text.
-              //  <FlatList data={products} renderItem={({ item }) => <ProductListItem product={item} /> } />
+               <FlatList data={products} 
+               numColumns={2}
+               contentContainerClassName='gap-2'
+               columnWrapperClassName='gap-2'
+               renderItem={({ item }) => <ProductListItem product={item} /> } />
            
-    
-    <Button variant='outline' > 
-        <ButtonText>Press yme</ButtonText>
-    </Button>
     
     
             );
