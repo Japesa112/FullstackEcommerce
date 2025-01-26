@@ -1,26 +1,36 @@
 import React from 'react';
 import { Text } from '@/components/ui/text';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import products from '@/assets/products.json';
-import { Pressable, View} from "react-native";
+import { ActivityIndicator, Pressable, View} from "react-native";
 import { Box } from "@/components/ui/box";
 import { ButtonText , Button} from "@/components/ui/button";
 import { Card, } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
 import { Heading } from "@/components/ui/heading";
 import { VStack } from "@/components/ui/vstack";
-import { Link } from "expo-router";
+import { useQuery } from '@tanstack/react-query';
+import { getProductById } from '@/api/products';
+
 
 
 export default function ProductDetailsScreen() {
 
     const { id } = useLocalSearchParams();
 
-    const product = products.find((p) => p.id === Number(id));
 
-    if (!product) {
-        return (<Text>Product not found</Text>);
+    const { data: product, isLoading, error} = useQuery({
+        queryKey: ['product', id],
+        queryFn:() => getProductById(id),
+    });
+
+    if (isLoading) {
+        return <ActivityIndicator size='large' color='#0000ff' />;
     }
+
+    if (error) {
+        return <Text>Product not found</Text>;
+    }
+
     return (
        
 

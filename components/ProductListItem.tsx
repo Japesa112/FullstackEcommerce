@@ -15,7 +15,7 @@ export default function ProductListItem({ product }: any) {
           
         <Image
           source={{
-            uri: product.image,
+            uri: product.image.toString(),
           }}
           className="mb-6 h-[240px] w-full rounded-md aspect-[4/3]"
           alt={`${product.name} image`   }
