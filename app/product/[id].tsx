@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '@/components/ui/text';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { ActivityIndicator, Pressable, View} from "react-native";
 import { Box } from "@/components/ui/box";
 import { ButtonText , Button} from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { Heading } from "@/components/ui/heading";
 import { VStack } from "@/components/ui/vstack";
 import { useQuery } from '@tanstack/react-query';
 import { getProductById } from '@/api/products';
+import { useCart } from '@/store/cartStore';
 
 
 
@@ -17,7 +18,11 @@ export default function ProductDetailsScreen() {
 
     const { id } = useLocalSearchParams();
 
+    const addProduct = useCart((state: any) => state.addToCart);
+    const cartItems = useCart((state: any) => state.items);
+    console.log("Cart items: ", cartItems); 
 
+    const router = useRouter();
     const { data: product, isLoading, error} = useQuery({
         queryKey: ['product', id],
         queryFn:() => getProductById(id),
@@ -30,6 +35,11 @@ export default function ProductDetailsScreen() {
     if (error) {
         return <Text>Product not found</Text>;
     }
+
+    const addToCart = () => {
+      addProduct(product);
+      router.push('/Cart');
+    };
 
     return (
        
@@ -60,7 +70,7 @@ export default function ProductDetailsScreen() {
                      </Text>
                    </VStack>
                    <Box className="flex-col sm:flex-row">
-                     <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
+                     <Button   onPress={addToCart} className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
                        <ButtonText size="sm">Add to cart</ButtonText>
                      </Button>
                      <Button

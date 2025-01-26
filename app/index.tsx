@@ -7,7 +7,7 @@ import { useBreakpointValue } from '@/components/ui/utils/use-break-point-value'
 import { listProducts } from '@/api/products';
 import { useQuery } from '@tanstack/react-query';
 import { A } from '@expo/html-elements';
-const HomeScreen = () => {
+ export default function HomeScreen() {
    // const {width} = useWindowDimensions();
    // const numColumns= width > 700 ? 3 : 2
    
@@ -75,4 +75,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeScreen;

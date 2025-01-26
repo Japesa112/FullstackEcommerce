@@ -1,24 +1,33 @@
+import { Box } from '@/components/ui/box';
+import { useCart } from '@/store/cartStore';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-const Cart = () => {
+ export default function Cart () {
+
+
+
+    const items = useCart((state: any) => state.items);
+    console.log("Cart items: ", items);
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>This is the Cart screen</Text>
-        </View>
+        <FlatList 
+        data={items}
+        renderItem={({ item }) => (
+            <Box className="flex-1 items-center p-3">
+
+
+
+            <Text>{item.product.name}</Text>
+            <Text>{item.product.price}</Text>
+            <Text>{item.quantity}</Text>
+
+            </Box>
+        )
+        
+        
+        
+        }
+        />
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-});
-
-export default Cart;
