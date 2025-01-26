@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, FlatList, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, FlatList, useWindowDimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 //import products from '../assets/products.json';
 import ProductListItem from '../components/ProductListItem';
 //import { Button, ButtonText } from '@/components/ui/button';
@@ -7,10 +7,11 @@ import { useBreakpointValue } from '@/components/ui/utils/use-break-point-value'
 import { listProducts } from '@/api/products';
 import { useQuery } from '@tanstack/react-query';
 import { A } from '@expo/html-elements';
+import { Link, router, useRouter } from 'expo-router';
  export default function HomeScreen() {
    // const {width} = useWindowDimensions();
    // const numColumns= width > 700 ? 3 : 2
-   
+   const router = useRouter();
     const { data, isLoading, error} = useQuery({
         queryKey: ['products'],
         queryFn: listProducts,
@@ -48,6 +49,14 @@ import { A } from '@expo/html-elements';
        
             // View is a container that supports layout with flexbox, style, some touch handling, and accessibility controls.
             // Text is a component for displaying text.
+
+                <View>
+            
+                <TouchableOpacity onPress={() => router.push("/(auth)/login") } className="gap-2 flex-row">    
+
+                        <Text>Login</Text>
+
+                </TouchableOpacity>
                <FlatList data={data} 
                key={numColumns}
                numColumns={numColumns}
@@ -56,7 +65,7 @@ import { A } from '@expo/html-elements';
                className=''
                renderItem={({ item }) => <ProductListItem product={item} /> } />
            
-    
+           </View>
     
             );
 };
