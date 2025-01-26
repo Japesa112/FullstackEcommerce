@@ -8,6 +8,9 @@ import { listProducts } from '@/api/products';
 import { useQuery } from '@tanstack/react-query';
 import { A } from '@expo/html-elements';
 import { Link, router, useRouter } from 'expo-router';
+import { useAuth } from "@/store/authStore";
+
+
  export default function HomeScreen() {
    // const {width} = useWindowDimensions();
    // const numColumns= width > 700 ? 3 : 2
@@ -16,6 +19,7 @@ import { Link, router, useRouter } from 'expo-router';
         queryKey: ['products'],
         queryFn: listProducts,
     });
+    const isLoggedIn = useAuth((state: any) => !!state.token);
    /** 
     * 
     * const [products, setProducts] = useState();
@@ -52,11 +56,11 @@ import { Link, router, useRouter } from 'expo-router';
 
                 <View>
             
-                <TouchableOpacity onPress={() => router.push("/(auth)/login") } className="gap-2 flex-row">    
+                {!isLoggedIn &&  (<TouchableOpacity onPress={() => router.push("/(auth)/login") } className="gap-2 flex-row">    
 
                         <Text>Login</Text>
 
-                </TouchableOpacity>
+                </TouchableOpacity>)}
                <FlatList data={data} 
                key={numColumns}
                numColumns={numColumns}
